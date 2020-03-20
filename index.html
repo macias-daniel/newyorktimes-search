@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <!-- create a container to hold all elements -->
+    <div class="container search-form">
+        <div class="jumbotron" style="background-color: #0275d8; color: #f7f7f7;">
+            <h3 class="display-4"> <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAoklEQVRIS92U/w1AMBCFv05gBDYQGxiNTWzECjawAamkSUkbHOdX/2z63nf3LleD8jHK/vwL0AG5MDKrLUJaP6JRaO5kwbgfA4SqcR3GinL3i3dbj/3UbgPERnVZB+qArVjfMQPJShyagTpg7yfob/+hDtQBkojcZ9cCPZBZE7/SAUgkzgFNDVRrQAk0QHoCYiu3HrP5GnDCNy7dO0wx/PuACXMVLBllFiWNAAAAAElFTkSuQmCC" />
+                New York Times Search</h3>
+            <hr>
+        </div>
+        <!-- create search parameters card -->
+        <div class="container search-parameters">
+            <h1><img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAn0lEQVRIS82V0Q2AIAxEj0nUTRxFJ9NRHEUn0dTYBBsRAi3KHzTcoy1wDsbDGeujKqAHMAFoC7NaAYwAFtLxM6BAUyjO20mrk4D9ipaW7abji1UHMFBWjQ8l43L9nL9l8DkgdB+SexDLwBzw/x7kvrnkHpgDQk0OgdXegRrAvETqAM3vemNf8f8iMpxZwRNIfHgynNySvO4rNZfoocwBB4owMhmDkH+/AAAAAElFTkSuQmCC" />
+                Search
+                Parameters</h1>
+            <form>
+                <!-- add four user input forms -->
+                <div class="form-group">
+                    <label for="search-terms">Search Term:</label>
+                    <input type="text" class="form-control" id="search-terms" placeholder="Example input">
+                </div>
+                <label for="records-numbers"> Number of Records to Retrieve</label>
+                <select class="form-control" id="records-numbers" name="dropdown">
+                    <option id="op1" data-value="1">1</option>
+                    <option id="op2" data-value="5">5</option>
+                    <option id="op3" data-value="10">10</option>
+                </select>
+                <div class="form-group">
+                    <label for="start-year">Start Year (Optional):</label>
+                    <input type="text" class="form-control" id="start-year" placeholder="Another input">
+                </div>
+                <div class="form-group">
+                    <label for="end-year">End Year (Optional)</label>
+                    <input type="text" class="form-control" id="end-year" placeholder="Another input">
+                </div>
+            </form>
+            <div class="buttons">
+                <!-- add two buttons to search or clear results -->
+                <button class="btn btn-primary" type="submit">Search</button>
+                <input class="btn btn-primary" type="reset" value="Reset">
+            </div>
+        </div>
+        <!-- create top articles card-->
+        <br>
+        <div class="container">
+            <div class="row">
+                <h3><img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAn0lEQVRIS82V0Q2AIAxEj0nUTRxFJ9NRHEUn0dTYBBsRAi3KHzTcoy1wDsbDGeujKqAHMAFoC7NaAYwAFtLxM6BAUyjO20mrk4D9ipaW7abji1UHMFBWjQ8l43L9nL9l8DkgdB+SexDLwBzw/x7kvrnkHpgDQk0OgdXegRrAvETqAM3vemNf8f8iMpxZwRNIfHgynNySvO4rNZfoocwBB4owMhmDkH+/AAAAAElFTkSuQmCC" />
+                Top Articles</h3>
+            </div>
+            <div class="row top-articles"></div>
+        </div>
+    </div>
+    <!-- <div class="container" style="position: relative; bottom: 0;">
+        <p style="position: absolute; bottom: 0;">Hello there!</p>
+    </div> -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+        var search = "";
+        var terms = "";
+        var numberOfResponses = 1;
+        var beginYear = "";
+        var endYear = "";
+        var apikey = "MlffiuKOXjtQ7DOcxgqDSYZOQlT5JXnk"
+        var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + apikey
+        //If the user inputed search add search var to queryURL
+        $("#records-numbers").on("change", function(){
+            numberOfResponses = $(this).val()
+        });
+        $(":submit").on("click", function () {
+            console.log(numberOfResponses);
+            search = $("#search-terms").val().trim();
+            beginYear = $("#start-year").val().trim();
+            endYear = $("#end-year").val().trim();
+            $(".top-articles").append()
+            if (search !== "") {
+                queryURL += "&q=" + search
+            } else {
+                alert("Must input search")
+                return
+            }
+            //If user inputed begin date add begin date to queryURL
+            if (beginYear !== "") {
+                queryURL += "&begin_date=" + beginYear + "0101"
+            }
+            //If user inputed end date add end date to queryURL
+            if (endYear !== "") {
+                queryURL += "&end_date=" + endYear + "1231"
+            }
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (result) {
+                //gives us article and points us to endpoint of information we want
+                var articleData = result.response.docs
+                for (var i = 0; i < numberOfResponses; i++) {
+                    var newDiv = $("<div>")
+                    var newAbstract = $("<p>").text(articleData[i].abstract);
+                    var newSectionName = $("<p>").text(articleData[i].section_name);
+                    var newPubDate = $("<p>").text(articleData[i].pub_date);
+                    var newWebURL = $("<a>").attr("href", articleData[i].web_url).text(articleData[i].web_url);
+                    newDiv.append(newAbstract)
+                    newDiv.append(newSectionName)
+                    newDiv.append(newPubDate)
+                    newDiv.append(newWebURL)
+                    newDiv.append($("<hr>"))
+                    $(".top-articles").append(newDiv)
+                }
+            })
+        });
+        $(":reset").on("click", function () {
+            $(".top-articles").empty();
+        });
+    </script>
+</body>
+</html>
